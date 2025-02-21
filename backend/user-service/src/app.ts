@@ -1,20 +1,24 @@
 import express, { Request, Response } from 'express';
-import cors from "cors"
-// import { userRoutes } from './routes/userRoutes';
+import cors from 'cors';
+import userRoutes from './routes/userRoutes';
+import { errorMiddleware } from './middlewares/errorMiddleware';
+import { validateRegisterInput, validateLoginInput } from './middlewares/validationMiddleware';
 
 const app = express();
 
-app.use(cors({
-    origin: ['http://localhost:3000', 'https://localhost:*'], 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-    allowedHeaders: ['Content-Type', 'Authorization'], 
-}));
- app.get('/',(req:Request,resp:Response)=>{
-    resp.send('User Service is running!...');
- })
-
+app.use(cors());
 app.use(express.json());
 
-// app.use('/user', userRoutes);
+// Rotas
+app.use('/users', userRoutes);
 
-export { app };
+app.get('/',(req:Request,resp:Response)=>{
+   resp.send('User Service is running!...');
+})
+// Middleware de tratamento de erros
+app.use(errorMiddleware);
+
+const PORT = process.env.USER_DB_PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
