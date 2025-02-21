@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   user-service:
     container_name: user-service
@@ -11,6 +12,9 @@ services:
       - ./backend/user-service:/api 
     env_file:
       - .env
+    depends_on:
+      - db-user  # Garante que o banco de dados inicie antes do user-service
+
   db-user:
     container_name: db_user
     build:
@@ -20,8 +24,9 @@ services:
       - .env
     volumes:
       - db_user:/var/lib/postgresql/data
+      - ./backend/user-service/db/init.sql:/docker-entrypoint-initdb.d/init.sql  # Monta o script SQL inicial
     ports:
       - "5435:5432"
-  
+
 volumes:
   db_user:
