@@ -14,7 +14,7 @@ const userController = new UserController(useService);
 
 const router = express.Router();
 router.get('/test',(req:Request,resp:Response)=>{
-    resp.send('User Service is running!...');
+    resp.send({message:'User Service is running!'});
  })
 router.post('/register', validateRegisterInput, userController.register);
 router.post('/login', validateLoginInput, userController.login);
