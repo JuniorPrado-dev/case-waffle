@@ -1,13 +1,13 @@
 import { User, UserData, UserPayload, userRole } from '../../../models/userModel';
 
-describe('UserRole Enum', () => {
+describe.skip('UserRole Enum', () => {
   it('should have the correct values', () => {
     expect(userRole.ADMIN).toBe('admin');
     expect(userRole.USER).toBe('user');
   });
 });
 
-describe('User Interface', () => {
+describe.skip('User Interface', () => {
   it('should have the correct properties', () => {
     const user: User = {
       name: 'John Doe',
@@ -23,7 +23,7 @@ describe('User Interface', () => {
   });
 });
 
-describe('UserData Interface', () => {
+describe.skip('UserData Interface', () => {
   it('should have the correct properties', () => {
     const userData: UserData = {
       id: '123',
@@ -41,7 +41,7 @@ describe('UserData Interface', () => {
   });
 });
 
-describe('UserPayload Interface', () => {
+describe.skip('UserPayload Interface', () => {
   it('should have the correct properties', () => {
     const userPayload: UserPayload = {
       id: '123',

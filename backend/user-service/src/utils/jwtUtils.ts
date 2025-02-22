@@ -6,7 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 // Gera um token JWT
 export const generateToken = (payload: UserPayload): string => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }); // Token expira em 1 hora
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: '10h' }); // Token expira em 1 hora
 };
 
 // Verifica e extrai os dados do token

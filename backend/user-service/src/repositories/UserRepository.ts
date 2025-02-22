@@ -2,6 +2,7 @@ import { User, UserData } from '../models/userModel';
 import { Database } from '../config/db'; // Importando a classe Database
 import { IdGenerator } from '../utils/idGenerator';
 import { AppError } from '../middlewares/errorMiddleware';
+import { PoolClient } from 'pg';
 
 export class UserRepository {
     private database: Database;
@@ -10,7 +11,6 @@ export class UserRepository {
     constructor(database: Database) {
         this.database = database;
     }
-
     // Método para criar um usuário
     async createUser(user: User): Promise<User | undefined> {
         try {

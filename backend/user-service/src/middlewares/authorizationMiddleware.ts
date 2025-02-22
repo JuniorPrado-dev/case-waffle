@@ -6,7 +6,6 @@ import { User } from '../models/userModel';
 // Middleware para autorizar com base na função do usuário
 export const authorize = (requiredRole: string) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        
         try {
           const user:User = res.locals.user
           console.log({user})
@@ -18,6 +17,5 @@ export const authorize = (requiredRole: string) => {
         } catch (error) {
           throw new AppError('Unauthorized User!', 401);
         }
-    next();
   };
 };
