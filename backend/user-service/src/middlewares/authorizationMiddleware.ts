@@ -1,23 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from './errorMiddleware';
 import { verifyToken } from '../utils/jwtUtils';
+import { User } from '../models/userModel';
 
 // Middleware para autorizar com base na função do usuário
 export const authorize = (requiredRole: string) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        const token = req.header('Authorization')?.replace('Bearer ', '');
-        if (!token) {
-          throw new AppError('Access denied. No token provided.', 401);
-        }
-      
+        
         try {
-          const userPayload = verifyToken(token)
-          if (userPayload.role!== requiredRole) {
-            throw new AppError('Unauthorized', 403);
+          const user:User = res.locals.user
+          if (user.role === requiredRole) {
+            next();
           }
-          next();
         } catch (error) {
-          throw new AppError('Invalid token.', 401);
+          throw new AppError('Unauthorized User!', 401);
         }
     next();
   };
