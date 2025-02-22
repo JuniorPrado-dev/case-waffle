@@ -9,19 +9,19 @@ export class UserRepository {
         try {
             const { name, password, email, role } = user;
             const id = IdGenerator.generateId();
-
+            
             // Obtém uma conexão do pool
             const connection = await Database.getInstance().connect();
-
+            
             // Executa a query para inserir o usuário
             const result = await connection.query(
                 `INSERT INTO users (id, name, password, email, role) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
                 [id, name, password, email, role]
             );
-
+            
             // Libera a conexão de volta para o pool
             connection.release();
-
+            
             // Retorna o usuário criado
             return result.rows[0];
         } catch (err) {
@@ -29,18 +29,17 @@ export class UserRepository {
             throw new AppError("ErrorRepository on register user")
         }
     }
-
+    
     // Método para encontrar um usuário pelo email
     async findUserByEmail(email: string): Promise<UserData | null> {
         try {
             // Obtém uma conexão do pool
             const connection = await Database.getInstance().connect();
-
+            
             // Executa a query para buscar o usuário pelo email
-            const result = await connection.query(
-                `SELECT * FROM users WHERE email = '${email}'`,
-            );
-
+            const result = await connection.query(`SELECT * FROM users WHERE email = $1`, [email])
+            console.log("RESULT ->>",result);
+            
             // Libera a conexão de volta para o pool
             connection.release();
 
