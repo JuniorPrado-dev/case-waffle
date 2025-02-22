@@ -6,9 +6,9 @@ export const validateRegisterInput = (
   res: Response,
   next: NextFunction
 ) => {
-  const { username, password, email } = req.body;
-
-  if (!username || !password || !email) {
+  const { name, password, email, role } = req.body;
+  
+  if (!name || !password || !email || !role) {
     throw new AppError('All fields are required', 400);
   }
 

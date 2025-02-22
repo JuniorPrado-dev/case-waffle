@@ -1,6 +1,8 @@
+import { UserController } from './../controllers/UserController';
 import express from 'express';
-import * as userController from '../controllers/userController';
 import { validateRegisterInput, validateLoginInput } from '../middlewares/validationMiddleware';
+
+const userController = new UserController();
 
 const router = express.Router();
 
