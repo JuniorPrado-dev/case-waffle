@@ -19,29 +19,24 @@ export class UserService {
       throw new AppError("ErrorUserService on creating user", 400)
     }
   };
-  
+
   loginUser = async (email: string, password: string): Promise<string | null> => {
-    try {
-      
-      const user = await this.userRepository.findUserByEmail(email);
-      if (!user) {
-        throw new AppError('User not found', 404);
-      }
-      
-      const isPasswordValid = await comparePasswords(password, user.password);
-      if (!isPasswordValid) {
-        throw new AppError('Invalid credentials', 401);
-      }
-      
-      const userPayload: UserPayload = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      }
-      return generateToken(userPayload);
-    } catch (error) {
-      throw new AppError("ErrorUserService on creating user", 400)
+    const user = await this.userRepository.findUserByEmail(email);
+    if (!user) {
+      throw new AppError('User not found', 404);
     }
+
+    const isPasswordValid = await comparePasswords(password, user.password);
+    if (!isPasswordValid) {
+      throw new AppError('Invalid credentials', 401);
+    }
+
+    const userPayload: UserPayload = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    }
+    return generateToken(userPayload);
   };
 }

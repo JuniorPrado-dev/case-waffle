@@ -38,7 +38,7 @@ export class UserRepository {
 
             // Executa a query para buscar o usuário pelo email
             const result = await connection.query(
-                `SELECT * FROM users WHERE email = ${email}`,
+                `SELECT * FROM users WHERE email = '${email}'`,
             );
 
             // Libera a conexão de volta para o pool

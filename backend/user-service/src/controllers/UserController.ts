@@ -15,22 +15,13 @@ export class UserController {
       }
       const user = await this.userService.registerUser(req.body);
       console.log({ user });
-      res.status(200).send({
-        status: 'success',
-        message: 'User registration successful'
-      });
+      res.send(user);
     } catch (error) {
-      console.log("UseControllerERROR: Failed to register user. ", error);
+      console.log("UseControllerERROR: Failed to register user. ",error);
       if (error instanceof AppError) {
-        res.status(error.statusCode||400).send({
-          status: 'error',
-          message: error.message
-        });
+         error;
       }
-      res.status(400).send({
-        status: 'error',
-        message: 'Failed to register user'
-      });
+      throw new AppError('Failed to register user', 500);
     }
   };
   
@@ -38,23 +29,15 @@ export class UserController {
     try {
       const token = await this.userService.loginUser(req.body.email, req.body.password);
       if (token) {
-        res.status(200).send({token: token });
+        res.json({ token });
       } else {
-        res.send
         throw new AppError('Invalid credentials', 401);
       }
     } catch (error) {
-      console.log("UseControllerERROR: Failed to login. ", error);
       if (error instanceof AppError) {
-        res.status(error.statusCode||400).send({
-          status: 'error',
-          message: error.message
-        });
+        throw error;
       }
-      res.status(400).send({
-        status: 'error',
-        message: 'Failed to register user'
-      });
+      throw new AppError('Failed to login', 500);
     }
   };
 }
