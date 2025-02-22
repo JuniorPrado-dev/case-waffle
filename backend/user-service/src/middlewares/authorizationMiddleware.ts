@@ -9,8 +9,11 @@ export const authorize = (requiredRole: string) => {
         
         try {
           const user:User = res.locals.user
+          console.log({user})
           if (user.role === requiredRole) {
             next();
+          }else{
+            throw new AppError('Unauthorized User!', 401);
           }
         } catch (error) {
           throw new AppError('Unauthorized User!', 401);

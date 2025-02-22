@@ -10,10 +10,6 @@ app.use(express.json());
 
 app.use('/users', userRoutes);
 
-app.get('/',(req:Request,resp:Response)=>{
-   resp.send('User Service is running!...');
-})
-
 app.use(errorMiddleware);
 
 export default app

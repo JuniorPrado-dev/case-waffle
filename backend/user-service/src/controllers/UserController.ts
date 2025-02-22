@@ -4,6 +4,20 @@ import { AppError } from '../middlewares/errorMiddleware';
 
 export class UserController {
   userService = new userService.UserService()
+  
+  getAllUsers = async (req: Request, res: Response) => {
+    try {
+      const allUsers = await this.userService.getAllUsers();
+      res.status(200).json(allUsers);
+    } catch (error) {
+      console.log("UseControllerERROR: Failed to get all Users. ",error);
+      if (error instanceof AppError) {
+         error;
+      }
+      throw new AppError('Failed to get all users', 500);
+    }
+  };
+  
   register = async (req: Request, res: Response) => {
     try {
       const user = await this.userService.registerUser(req.body);

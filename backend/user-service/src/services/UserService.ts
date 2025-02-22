@@ -6,6 +6,20 @@ import { UserRepository } from '../repositories/UserRepository';
 
 export class UserService {
   userRepository = new UserRepository()
+  
+  getAllUsers = async (): Promise<User[] | undefined> => {
+    try {
+      const allUsers = await this.userRepository.getAllUsers();
+      if (!allUsers || allUsers.length === 0) {
+        throw new AppError('Users not found', 404);
+      }
+      return allUsers;
+    } catch (error) {
+      console.log("ErrorUserService on getAllUsers",error)
+      throw new AppError("ErrorUserService on getAllUsers", 400)
+    }
+  };
+
   registerUser = async (user: User): Promise<User | undefined> => {
     try {
       const existingUser = await this.userRepository.findUserByEmail(user.email);
