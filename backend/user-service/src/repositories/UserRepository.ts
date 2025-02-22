@@ -1,6 +1,7 @@
 import { User, UserData } from '../models/userModel';
 import { Database } from '../config/db'; // Importando a classe Database
 import { IdGenerator } from '../utils/idGenerator';
+import { AppError, errorMiddleware } from '../middlewares/errorMiddleware';
 
 export class UserRepository {
     // Método para criar um usuário
@@ -24,7 +25,8 @@ export class UserRepository {
             // Retorna o usuário criado
             return result.rows[0];
         } catch (err) {
-            console.error('Erro ao criar usuário:', err);
+            console.error('ErroUserRepository on register user:', err);
+            throw new AppError("ErrorRepository on register user")
         }
     }
 
@@ -36,8 +38,7 @@ export class UserRepository {
 
             // Executa a query para buscar o usuário pelo email
             const result = await connection.query(
-                `SELECT * FROM users WHERE email = $1`,
-                [email]
+                `SELECT * FROM users WHERE email = ${email}`,
             );
 
             // Libera a conexão de volta para o pool
@@ -47,7 +48,7 @@ export class UserRepository {
             return result.rows[0] || null;
         } catch (err) {
             console.error('Erro ao buscar usuário por email:', err);
-            return null;
+            throw new AppError("ErrorRepository on search user");
         }
     }
 }
