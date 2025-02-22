@@ -1,9 +1,16 @@
 import { User, UserData } from '../models/userModel';
 import { Database } from '../config/db'; // Importando a classe Database
 import { IdGenerator } from '../utils/idGenerator';
-import { AppError, errorMiddleware } from '../middlewares/errorMiddleware';
+import { AppError } from '../middlewares/errorMiddleware';
 
 export class UserRepository {
+    private database: Database;
+
+    // Construtor que recebe a instância de Database
+    constructor(database: Database) {
+        this.database = database;
+    }
+
     // Método para criar um usuário
     async createUser(user: User): Promise<User | undefined> {
         try {
@@ -11,7 +18,7 @@ export class UserRepository {
             const id = IdGenerator.generateId();
             
             // Obtém uma conexão do pool
-            const connection = await Database.getInstance().connect();
+            const connection = await this.database.getInstance().connect();
             
             // Executa a query para inserir o usuário
             const result = await connection.query(
@@ -29,19 +36,20 @@ export class UserRepository {
             throw new AppError("ErrorRepository on register user")
         }
     }
+
     // Get all users
     async getAllUsers(): Promise<User[] | undefined> {
         try {
             // Obtém uma conexão do pool
-            const connection = await Database.getInstance().connect();
+            const connection = await this.database.getInstance().connect();
             
-            // Executa a query para inserir o usuário
+            // Executa a query para buscar todos os usuários
             const result = await connection.query(`SELECT * FROM users WHERE role = $1`, ["user"])
             
             // Libera a conexão de volta para o pool
             connection.release();
             
-            // Retorna o usuário criado
+            // Retorna os usuários encontrados
             return result.rows;
         } catch (err) {
             console.error('ErroUserRepository on get all users:', err);
@@ -53,7 +61,7 @@ export class UserRepository {
     async findUserByEmail(email: string): Promise<UserData | null> {
         try {
             // Obtém uma conexão do pool
-            const connection = await Database.getInstance().connect();
+            const connection = await this.database.getInstance().connect();
             
             // Executa a query para buscar o usuário pelo email
             const result = await connection.query(`SELECT * FROM users WHERE email = $1`, [email])

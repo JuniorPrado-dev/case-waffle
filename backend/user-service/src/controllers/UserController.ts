@@ -1,10 +1,14 @@
 import { Request, Response } from 'express';
-import * as userService from '../services/UserService';
 import { AppError } from '../middlewares/errorMiddleware';
+import { UserService } from '../services/UserService';
 
 export class UserController {
-  userService = new userService.UserService()
-  
+  private userService: UserService;
+
+  constructor(userService: UserService) {
+    this.userService = userService;
+  }
+
   getAllUsers = async (req: Request, res: Response) => {
     try {
       const allUsers = await this.userService.getAllUsers();

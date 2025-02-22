@@ -5,8 +5,12 @@ import { AppError } from '../middlewares/errorMiddleware';
 import { UserRepository } from '../repositories/UserRepository';
 
 export class UserService {
-  userRepository = new UserRepository()
-  
+  private userRepository: UserRepository;
+
+  constructor(userRepository: UserRepository) {
+    this.userRepository = userRepository;
+  }
+
   getAllUsers = async (): Promise<User[] | undefined> => {
     try {
       const allUsers = await this.userRepository.getAllUsers();

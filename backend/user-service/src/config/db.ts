@@ -6,9 +6,9 @@ dotenv.config();
 export class Database {
     private static instance: Pool;
 
-    private constructor() {}
+    constructor() {}
 
-    public static getInstance(): Pool {
+    public getInstance(): Pool {
         if (!Database.instance) {
             Database.instance = new Pool({
                 user: process.env.USER_DB_USER,
@@ -28,7 +28,8 @@ export class Database {
 
 // Função para criar uma conexão direta (não pool)
 export async function createConnection(): Promise<PoolClient> {
-    const pool = Database.getInstance();
+    const database = new Database();
+    const pool = database.getInstance();
     return await pool.connect();
 }
 

@@ -3,8 +3,14 @@ import express, { Request, Response } from 'express';
 import { validateRegisterInput, validateLoginInput } from '../middlewares/validationMiddleware';
 import { authenticate } from '../middlewares/authMiddleware';
 import { authorize } from '../middlewares/authorizationMiddleware';
+import { UserService } from '../services/UserService';
+import { UserRepository } from '../repositories/UserRepository';
+import { Database } from '../config/db';
 
-const userController = new UserController();
+const dataBase = new Database();
+const userRepository = new UserRepository(dataBase);
+const useService = new UserService(userRepository);
+const userController = new UserController(useService);
 
 const router = express.Router();
 router.get('/test',(req:Request,resp:Response)=>{
