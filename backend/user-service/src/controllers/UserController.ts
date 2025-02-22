@@ -9,6 +9,23 @@ export class UserController {
     this.userService = userService;
   }
 
+  getUserById = async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id;
+      if (!id){
+        throw new AppError('User id is required !',404);
+      }
+      const allUsers = await this.userService.getUserById(id);
+      res.status(200).json(allUsers);
+    } catch (error) {
+      console.log("UseControllerERROR: Failed to get all Users. ",error);
+      if (error instanceof AppError) {
+         error;
+      }
+      throw new AppError('Failed to get all users', 500);
+    }
+  };
+
   getAllUsers = async (req: Request, res: Response) => {
     try {
       const allUsers = await this.userService.getAllUsers();

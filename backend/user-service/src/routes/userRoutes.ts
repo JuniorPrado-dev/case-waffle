@@ -19,4 +19,5 @@ router.get('/test',(req:Request,resp:Response)=>{
 router.post('/register', validateRegisterInput, userController.register);
 router.post('/login', validateLoginInput, userController.login);
 router.get('/', authenticate,authorize("admin"), userController.getAllUsers);
+router.get('/:id', authenticate,authorize("admin"), userController.getUserById);
 export default router;

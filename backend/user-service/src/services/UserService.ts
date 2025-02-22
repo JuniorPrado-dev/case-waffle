@@ -11,6 +11,19 @@ export class UserService {
     this.userRepository = userRepository;
   }
 
+  getUserById = async (id:string): Promise<User[] | undefined> => {
+    try {
+      const user = await this.userRepository.getUserById(id);
+      if (!user) {
+        throw new AppError('User not found', 404);
+      }
+      return user;
+    } catch (error) {
+      console.log("ErrorUserService ongetUserById",error)
+      throw new AppError("ErrorUserService ongetUserById", 400)
+    }
+  };
+
   getAllUsers = async (): Promise<User[] | undefined> => {
     try {
       const allUsers = await this.userRepository.getAllUsers();

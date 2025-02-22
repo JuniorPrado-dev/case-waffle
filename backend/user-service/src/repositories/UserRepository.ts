@@ -56,6 +56,25 @@ export class UserRepository {
             throw new AppError("ErrorRepository on get all users")
         }
     }
+    // Get User by Id
+    async getUserById(id:string): Promise<User[] | undefined> {
+        try {
+            // Obtém uma conexão do pool
+            const connection = await this.database.getInstance().connect();
+            
+            // Executa a query para buscar todos os usuários
+            const result = await connection.query(`SELECT * FROM users WHERE id = $1`, [id])
+            
+            // Libera a conexão de volta para o pool
+            connection.release();
+            
+            // Retorna os usuários encontrados
+            return result.rows[0];
+        } catch (err) {
+            console.error('ErroUserRepository on get user:', err);
+            throw new AppError("ErrorRepository on get user")
+        }
+    }
     
     // Método para encontrar um usuário pelo email
     async findUserByEmail(email: string): Promise<UserData | null> {
