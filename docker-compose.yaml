@@ -1,20 +1,4 @@
 services:
-  # api gateway -------------------------------- 
-  api-gateway:
-    container_name: api-gateway
-    build:
-      context: ./backend/api-gateway
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - "3005:3005"
-    volumes:
-      - ./backend/api-gateway:/api 
-    depends_on:
-      - db-gateway
-    env_file:
-      - ./backend/api-gateway/.env
-  # user service -------------------------------- 
   user-service:
     container_name: user-service
     build:
@@ -22,73 +6,26 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "3006:3006"
+      - "3015:3005"
     volumes:
       - ./backend/user-service:/api 
-    depends_on:
-      - db-gateway
     env_file:
       - ./backend/user-service/.env
+    depends_on:
+      - db-user  # Garante que o banco de dados inicie antes do user-service
+
   db-user:
-    container_name: db-gateway
+    container_name: user_db
     build:
-      context: ./backend/user-service
+      context: ./backend/user-service/db
       dockerfile: Dockerfile
-    ports:
-      - "5437:5432"
+    env_file:
+      - ./backend/user-service/db/.env
     volumes:
-      -  db_user:/var/lib/postgresql/data
-    restart: always
-  # # admin service -------------------------------- 
-  # admin-service:
-  #   container_name: admin-service
-  #   build:
-  #     context: ./backend/admin-service
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   ports:
-  #     - "3008:3008"
-  #   volumes:
-  #     - ./backend/admin-service:/api 
-  #   depends_on:
-  #     - db-gateway
-  #   env_file:
-  #     - ./backend/admin-service/.env
-  # db-admin:
-  #   container_name: db-gateway
-  #   build:
-  #     context: ./backend/admin-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5435:5432"
-  #   volumes:
-  #     -  db_admin:/var/lib/postgresql/data
-  #   restart: always
-  # # admin service -------------------------------- 
-  # game-service:
-  #   container_name: game-service
-  #   build:
-  #     context: ./backend/game-service
-  #     dockerfile: Dockerfile
-  #   restart: always
-  #   ports:
-  #     - "3005:3005"
-  #   volumes:
-  #     - ./backend/game-service:/api 
-  #   depends_on:
-  #     - db-gateway
-  #   env_file:
-  #     - ./backend/game-service/.env
-  # db-game:
-  #   container_name: db-gateway
-  #   build:
-  #     context: ./backend/game-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "5435:5432"
-  #   volumes:
-  #     -  db_game:/var/lib/postgresql/data
-  #   restart: always
-  
+      - db_user:/var/lib/postgresql/data
+      - ./backend/user-service/db/init.sql:/docker-entrypoint-initdb.d/init.sql  # Monta o script SQL inicial
+    ports:
+      - "5435:5432"
+
 volumes:
-  db_volume-gateway:
+  db_user:
