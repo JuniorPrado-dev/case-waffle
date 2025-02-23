@@ -1,6 +1,7 @@
 import { AppError } from '../middlewares/errorMiddleware';
 import { PlayerRepository } from '../repositories/PlayerRepository';
-import { Player } from '../models/playerModel';
+import { Player, PlayerData } from '../models/playerModel';
+import { IdGenerator } from '../utils/idGenerator';
 
 export class PlayerService {
   private playerRepository: PlayerRepository;
@@ -9,30 +10,34 @@ export class PlayerService {
     this.playerRepository = playerRepository;
   }
   
-  registerPlayer = async (player: Player): Promise<Player | undefined> => {
+  updatePlayer = async (player: Player): Promise<Player | undefined> => {
     try {
       const existingPlayer = await this.playerRepository.findPlayerByEmail(player.email);
       if (existingPlayer) {
         this.playerRepository.updatePlayerByEmail(existingPlayer)
       }else{
-        return await this.playerRepository.createPlayer(player);
+        const id= IdGenerator.generateId()
+
+        return await this.playerRepository.createPlayer({id, ...player});
       }
     } catch (error) {
       throw new AppError("ErrorPlayerService on creating player", 400)
     }
   };
-  // getPlayerByEmail = async (id:string): Promise<Player[] | undefined> => {
-  //   try {
-  //     const player = await this.playerRepository.getUserById;
-  //     if (!player) {
-  //       throw new AppError('player not found', 404);
-  //     }
-  //     return player;
-  //   } catch (error) {
-  //     console.log("ErrorplayerService ongetplayerById",error)
-  //     throw new AppError("ErrorplayerService ongetplayerById", 400)
-  //   }
-  // };
+  
+  getPlayerByEmail = async (email:string): Promise<PlayerData | undefined> => {
+    try {
+      const player = await this.playerRepository.findPlayerByEmail(email);
+      if (!player) {
+        throw new AppError('player not found', 404);
+      }      
+      return player;
+    
+    } catch (error) {
+      console.log("ErrorplayerService ongetplayerById",error)
+      throw new AppError("ErrorplayerService ongetplayerById", 400)
+    }
+  };
 
   // getAllplayers = async (): Promise<player[] | undefined> => {
   //   try {
