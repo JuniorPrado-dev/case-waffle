@@ -100,7 +100,7 @@ export class PlayerRepository {
     }
     
     // Método para encontrar um usuário pelo email
-    async updatePlayerByEmail(updatePlayer: Player): Promise<Player | null> {
+    async updatePlayerByEmail(updatePlayer: Player): Promise<PlayerData | undefined> {
         try {
             // Obtém uma conexão do pool
             const connection = await this.database.getInstance().connect();
