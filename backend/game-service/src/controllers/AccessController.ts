@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { AppError } from '../middlewares/errorMiddleware';
 import { AccessService } from '../services/AccessService';
 import { Player } from '../models/playerModel';
@@ -12,20 +12,16 @@ export class AccessController {
     this.accessService = accessService;
   }
 
-  getAllAccess = async (req: Request, res: Response) => {
+  getAllAccess = async (req: Request, res: Response,next:NextFunction) => {
     try {
       const allAccess = await this.accessService.getAllAccess()
       res.status(200).json(allAccess);
     } catch (error) {
-      console.log("AccessControllerERROR: Failed get all accesses. ", error);
-      if (error instanceof AppError) {
-        error;
-      }
-      throw new AppError('Failed to get all access', 500);
+      next(error);
     }
   };
 
-  newRegister = async (req: Request, res: Response) => {
+  newRegister = async (req: Request, res: Response,next:NextFunction) => {
     try {
       const player: Player = {
         email: req.body.email,
@@ -41,14 +37,8 @@ export class AccessController {
       const allAccess = await this.accessService.registerAccess(access, player)
       res.status(200).json(allAccess);
     } catch (error) {
-      console.log("AccessControllerERROR: Failed get all accesses. ", error);
-      if (error instanceof AppError) {
-        error;
-      }
-      throw new AppError('Failed to get all access', 500);
+      next(error)
     }
-
-
   }
 
 
