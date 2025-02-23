@@ -34,7 +34,7 @@ export class AccessRepository {
                                     email,
                                     created_at,
                                     id_post,
-                                    status,
+                                    status
                                     ) 
                  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
                 [id, utm_campaign, utm_channel, utm_medium, utm_source,email,created_at,id_post,status]
