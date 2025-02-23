@@ -1,7 +1,7 @@
 import { Database } from '../config/db'; // Importando a classe Database
 import { IdGenerator } from '../utils/idGenerator';
 import { AppError } from '../middlewares/errorMiddleware';
-import { Player, PlayerData } from '../models/playerModel';
+import { Player, PlayerData, PlayerUpdate } from '../models/playerModel';
 
 export class PlayerRepository {
     private database: Database;
@@ -15,11 +15,10 @@ export class PlayerRepository {
         try {
             const {
                 id,
-                name,
                 email,
                 last_check_date = Date.now(),
                 scores,
-                } = player;
+            } = player;
             // Obtém uma conexão do pool
             const connection = await this.database.getInstance().connect();
 
@@ -75,7 +74,7 @@ export class PlayerRepository {
             return result.rows[0];
         } catch (err) {
             console.error('ErrorUserRepository on get user by id', err);
-            throw new AppError("ErrorRepository on get user by id",400)
+            throw new AppError("ErrorRepository on get user by id", 400)
         }
     }
 
@@ -98,15 +97,13 @@ export class PlayerRepository {
             throw new AppError("ErrorRepository on search user");
         }
     }
-    
-    // Método para encontrar um usuário pelo email
-    async updatePlayerByEmail(updatePlayer: Player): Promise<PlayerData | undefined> {
+
+    async updatePlayerByEmail(updatePlayer: PlayerUpdate): Promise<PlayerData | undefined> {
         try {
             // Obtém uma conexão do pool
             const connection = await this.database.getInstance().connect();
 
             const {
-                name,
                 email,
                 last_check_date,
                 scores,
@@ -115,11 +112,13 @@ export class PlayerRepository {
             // Executa a query 
             const result = await connection.query(
                 `UPDATE players
-                 SET (name = $1 , email= $2,
-                 last_check_date = $3, scores = $4) 
+                 SET email = $1,
+                     last_check_date = $2, 
+                     scores = $3
+                 WHERE email = $1
                  RETURNING *`,
-                [name, email, last_check_date, scores] 
-            )   
+                [email, last_check_date, scores]
+            );
             // Libera a conexão de volta para o pool
             connection.release();
 
@@ -127,7 +126,7 @@ export class PlayerRepository {
             return result.rows[0] || null;
         } catch (err) {
             console.error('Error update players by email:', err);
-            throw new AppError("ErrorRepository on update player: ",500);
+            throw new AppError("ErrorRepository on update player: ", 500);
         }
     }
 }

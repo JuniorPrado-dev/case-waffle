@@ -1,6 +1,6 @@
 import { AppError } from '../middlewares/errorMiddleware';
 import { PlayerRepository } from '../repositories/PlayerRepository';
-import { Player, PlayerData } from '../models/playerModel';
+import { Player, PlayerData, PlayerUpdate } from '../models/playerModel';
 import { IdGenerator } from '../utils/idGenerator';
 import { calculateNewScore } from '../utils/scoresCalculator';
 
@@ -11,7 +11,7 @@ export class PlayerService {
     this.playerRepository = playerRepository;
   }
 
-  registerPlayer = async (player: Player): Promise<Player | undefined> => {
+  registerPlayer = async (player: Player): Promise<PlayerData | undefined> => {
     try {
       //search player
       const existingPlayer = await this.playerRepository.findPlayerByEmail(player.email);
@@ -19,29 +19,25 @@ export class PlayerService {
         throw new AppError("Player already exists", 401)
       } else {
         const id = IdGenerator.generateId()
-        player.last_check_date = Date.now()
-        player.scores = 1
-        return await this.playerRepository.createPlayer({ id, ...player });
+        const newPlayer:PlayerData ={
+          email: player.email,
+          id,
+          last_check_date: Date.now(),
+          scores:1
+        } 
+        return await this.playerRepository.createPlayer(newPlayer);
       }
     } catch (error) {
       throw new AppError("ErrorPlayerService on creating player", 400)
     }
   };
 
-  updatePlayer = async (player: Player): Promise<PlayerData | undefined> => {
+  updatePlayer = async (player: PlayerUpdate): Promise<PlayerData | undefined> => {
     try {
       const existingPlayer = await this.playerRepository.findPlayerByEmail(player.email);
       if (!existingPlayer) {
         throw new AppError("Player don't exists", 401)
       } else {
-        let updatePayer: Player = {
-          email: player.email.length > 0 ? player.email : existingPlayer.email,
-          name: player.name.length > 0 ? player.name : existingPlayer.name,
-          scores: player.scores,
-          last_check_date: player.last_check_date
-        }
-
-        updatePayer = calculateNewScore(updatePayer, Date.now())
         return await this.playerRepository.updatePlayerByEmail(player);
       }
     } catch (error) {

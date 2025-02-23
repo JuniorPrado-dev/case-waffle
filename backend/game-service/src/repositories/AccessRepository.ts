@@ -10,7 +10,7 @@ export class AccessRepository {
         this.database = database;
     }
     // Método para add acess
-    async registerAccess(Access: AccessData): Promise<AccessData | undefined> {
+    async registerAccess(access: AccessData): Promise<AccessData | undefined> {
         try {
             const {
                 id,
@@ -18,7 +18,8 @@ export class AccessRepository {
                 utm_channel,
                 utm_medium,
                 utm_source,
-                id_player } = Access;
+                email
+            } = access;
 
             const connection = await this.database.getInstance().connect();
             const result = await connection.query(
@@ -27,9 +28,9 @@ export class AccessRepository {
                                     utm_channel,
                                     utm_medium,
                                     utm_source,
-                                    id_player ) 
+                                    email ) 
                  VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-                [id, utm_campaign, utm_channel, utm_medium, utm_source, id_player]
+                [id, utm_campaign, utm_channel, utm_medium, utm_source,email]
             );
             connection.release();
             return result.rows[0];
@@ -41,7 +42,7 @@ export class AccessRepository {
     }
 
     // Get all Access
-    async getAllAccesses(): Promise<Access[] | undefined> {
+    async getAllAccesses(): Promise<AccessData[] | undefined> {
         try {
             const connection = await this.database.getInstance().connect();
 
@@ -50,6 +51,21 @@ export class AccessRepository {
             connection.release();
 
             return result.rows;
+        } catch (err) {
+            console.error('ErrorUserRepository on get all access:', err);
+            throw new AppError("ErrorRepository on get all access")
+        }
+    }
+    // Get Access by email
+    async getAccessByEmail(email:string): Promise<AccessData | undefined> {
+        try {
+            const connection = await this.database.getInstance().connect();
+
+            const result = await connection.query(`SELECT * FROM access WHERE email = $1`,[email])
+
+            connection.release();
+
+            return result.rows[0];
         } catch (err) {
             console.error('ErrorUserRepository on get all access:', err);
             throw new AppError("ErrorRepository on get all access")

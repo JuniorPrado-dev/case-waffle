@@ -1,6 +1,6 @@
-import { Player } from "../models/playerModel";
+import { Player, PlayerUpdate } from "../models/playerModel";
   
-export  function calculateNewScore(player: Player, currentDate: number): Player {
+export  function calculateNewScore(player: PlayerUpdate, currentDate: number): PlayerUpdate {
     const ONE_DAY = 24 * 60 * 60 * 1000; // Um dia em milissegundos
     const lastCheckDate = new Date(player.last_check_date);
     const currentCheckDate = new Date(currentDate);

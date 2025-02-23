@@ -6,24 +6,10 @@ export const validateRegisterInput = (
   res: Response,
   next: NextFunction
 ) => {
-  const { email } = req.body;
+  const { email, id_post } = req.body;
   
-  if ( !email ) {
-    throw new AppError('Email is required', 400);
+  if ( !email || !id_post ) {
+    throw new AppError('Email and Id Post are required', 400);
   }
   next();
 };
-
-// export const validateLoginInput = (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const { email, password } = req.body;
-
-//   if (!email || !password) {
-//     throw new AppError('Email and password are required', 400);
-//   }
-
-//   next();
-// };
