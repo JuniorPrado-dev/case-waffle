@@ -19,14 +19,7 @@ export class PlayerRepository {
                 email,
                 last_check_date = Date.now(),
                 scores,
-                utm_campaign,
-                utm_channel,
-                utm_medium,
-                utm_source } = player;
-
-            const idPlayer = IdGenerator.generateId();
-            const idAccess = IdGenerator.generateId();
-
+                } = player;
             // Obtém uma conexão do pool
             const connection = await this.database.getInstance().connect();
 
@@ -35,7 +28,7 @@ export class PlayerRepository {
                 `INSERT INTO players (id, name , email,
                  last_check_date, scores) 
                  VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-                [idPlayer, name, email, last_check_date, scores]
+                [id, name, email, last_check_date, scores]
             );
             // Libera a conexão de volta para o pool
             connection.release();
@@ -47,46 +40,8 @@ export class PlayerRepository {
             throw new AppError("ErrorRepository on register player")
         }
     }
-    // Método para criar um usuário
-    async UpdatecreatePlayer(player: PlayerData): Promise<PlayerData | undefined> {
-        try {
-            const {
-                id,
-                name,
-                email,
-                last_check_date = Date.now(),
-                scores,
-                utm_campaign,
-                utm_channel,
-                utm_medium,
-                utm_source } = player;
-
-            const idPlayer = IdGenerator.generateId();
-            const idAccess = IdGenerator.generateId();
-
-            // Obtém uma conexão do pool
-            const connection = await this.database.getInstance().connect();
-
-            // Executa a query para inserir o jogado
-            const result = await connection.query(
-                `INSERT INTO players (id, name , email,
-                 last_check_date, scores) 
-                 VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-                [idPlayer, name, email, last_check_date, scores]
-            );
-            // Libera a conexão de volta para o pool
-            connection.release();
-
-            // Retorna o player criado
-            return result.rows[0];
-        } catch (err) {
-            console.error('ErrorUserRepository on register user:', err);
-            throw new AppError("ErrorRepository on register player")
-        }
-    }
-
-    // Get all players
-    async getAllPlayers(): Promise<Player[] | undefined> {
+    //get all players
+    async getAllPlayers(): Promise<PlayerData[] | undefined> {
         try {
             // Obtém uma conexão do pool
             const connection = await this.database.getInstance().connect();
@@ -100,12 +55,12 @@ export class PlayerRepository {
             // Retorna os usuários encontrados
             return result.rows;
         } catch (err) {
-            console.error('ErroUserRepository on get all players:', err);
+            console.error('ErrorUserRepository on get all players:', err);
             throw new AppError("ErrorRepository on get all players")
         }
     }
-    // Get User by Id
-    async getUserById(id: string): Promise<Player | undefined> {
+    // Get Player by Id
+    async getPlayerById(id: string): Promise<Player | undefined> {
         try {
             // Obtém uma conexão do pool
             const connection = await this.database.getInstance().connect();
@@ -119,12 +74,12 @@ export class PlayerRepository {
             // Retorna os usuários encontrados
             return result.rows[0];
         } catch (err) {
-            console.error('ErroUserRepository on get user:', err);
-            throw new AppError("ErrorRepository on get user")
+            console.error('ErrorUserRepository on get user by id', err);
+            throw new AppError("ErrorRepository on get user by id",400)
         }
     }
 
-    // Método para encontrar um usuário pelo email
+    // find player by email
     async findPlayerByEmail(email: string): Promise<PlayerData | null> {
         try {
             // Obtém uma conexão do pool
@@ -143,6 +98,7 @@ export class PlayerRepository {
             throw new AppError("ErrorRepository on search user");
         }
     }
+    
     // Método para encontrar um usuário pelo email
     async updatePlayerByEmail(updatePlayer: Player): Promise<Player | null> {
         try {
@@ -154,10 +110,7 @@ export class PlayerRepository {
                 email,
                 last_check_date,
                 scores,
-                utm_campaign,
-                utm_channel,
-                utm_medium,
-                utm_source } = updatePlayer;
+            } = updatePlayer;
 
             // Executa a query 
             const result = await connection.query(
@@ -166,17 +119,6 @@ export class PlayerRepository {
                  last_check_date = $3, scores = $4) 
                  RETURNING *`,
                 [name, email, last_check_date, scores] 
-            )   
-            // Executa a query 
-            const result2 = await connection.query(
-                `UPDATE players
-                 SET (
-                 utm_campaign = $5, 
-                 utm_channel = $6, 
-                 utm_medium = $7, 
-                 utm_source = $8) 
-                 VALUES ($1, $2, $3, $4) RETURNING *`,
-                [utm_campaign, utm_channel, utm_medium, utm_source] 
             )   
             // Libera a conexão de volta para o pool
             connection.release();
