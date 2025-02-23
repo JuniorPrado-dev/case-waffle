@@ -3,6 +3,7 @@ import { hashPassword, comparePasswords } from '../utils/passwordUtils';
 import { generateToken } from '../utils/jwtUtils';
 import { AppError } from '../middlewares/errorMiddleware';
 import { UserRepository } from '../repositories/UserRepository';
+import { IdGenerator } from '../utils/idGenerator';
 
 export class UserService {
   private userRepository: UserRepository;
@@ -60,8 +61,9 @@ export class UserService {
         throw new AppError('User already exists', 400);
       }
 
+      const id = IdGenerator.generateId();  
       user.password = await hashPassword(user.password);
-      return await this.userRepository.createUser(user);
+      return await this.userRepository.createUser({id,...user});
     } catch (error) {
       throw new AppError("ErrorUserService on creating user", 400)
     }

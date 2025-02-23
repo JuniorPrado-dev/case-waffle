@@ -12,10 +12,9 @@ export class UserRepository {
         this.database = database;
     }
     // Método para criar um usuário
-    async createUser(user: User): Promise<User | undefined> {
+    async createUser(user: UserData): Promise<User | undefined> {
         try {
-            const { name, password, email, role } = user;
-            const id = IdGenerator.generateId();
+            const {id, name, password, email, role } = user;
             
             // Obtém uma conexão do pool
             const connection = await this.database.getInstance().connect();
