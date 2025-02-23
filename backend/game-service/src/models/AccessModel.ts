@@ -7,11 +7,13 @@ export interface Access {
   utm_medium?: string;
   utm_campaign?: string;
   utm_channel?: string;
+  status?: string;
+  created_at?: number;
 }
 export interface AccessData extends Access {
   id: string;
 }
 export interface InfoAccessGeneral {
-  access:AccessData;
+  access: AccessData;
   player: PlayerData;
 }

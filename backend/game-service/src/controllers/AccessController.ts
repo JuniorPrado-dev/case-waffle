@@ -12,7 +12,7 @@ export class AccessController {
     this.accessService = accessService;
   }
 
-  getAllAccess = async (req: Request, res: Response,next:NextFunction) => {
+  getAllAccess = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const allAccess = await this.accessService.getAllAccess()
       res.status(200).json(allAccess);
@@ -21,11 +21,16 @@ export class AccessController {
     }
   };
 
-  newRegister = async (req: Request, res: Response,next:NextFunction) => {
-    
-    console.log("req.body.data --> ",req.body.data)
-    
+  newRegister = async (req: Request, res: Response, next: NextFunction) => {
+
+    console.log("req.body.data --> ", req.body.data)
+
     try {
+      const dateString = req.body.data.created_at
+      const date = dateString ? new Date(dateString):null; // Converte a string para um objeto Date
+      const timestamp = date? date.getTime():Date.now();  // Obtém o timestamp em milissegundos
+
+      console.log(timestamp); // Exibe o timestamp
       const player: Player = {
         email: req.body.data.email,
       }
@@ -35,7 +40,8 @@ export class AccessController {
         utm_campaign: req.body.data.id_post || "",
         utm_channel: req.body.data.utm_channel || "",
         utm_medium: req.body.data.utm_medium || "",
-        utm_source: req.body.data.utm_source || ""
+        utm_source: req.body.data.utm_source || "",
+        created_at: timestamp,
       }
       const allAccess = await this.accessService.registerAccess(access, player)
       res.status(200).json(allAccess);

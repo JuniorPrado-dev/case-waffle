@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS "access" (
     utm_campaign VARCHAR(255), 
     utm_channel VARCHAR(255), 
     email VARCHAR(255),
+    status VARCHAR(255),
+    created_at BIGINT,
     CONSTRAINT fk_player
     FOREIGN KEY (email)
     REFERENCES players(email)
