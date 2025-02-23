@@ -1,1 +1,10 @@
-console.log("Hello world!");
+import app from "./app";
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const PORT = process.env.API_GATEWAY_PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log(`User Service running on port ${PORT}`);
+});
