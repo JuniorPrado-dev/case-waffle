@@ -22,17 +22,20 @@ export class AccessController {
   };
 
   newRegister = async (req: Request, res: Response,next:NextFunction) => {
+    
+    console.log("req.body.data --> ",req.body.data)
+    
     try {
       const player: Player = {
-        email: req.body.email,
+        email: req.body.data.email,
       }
       const access: Access = {
-        email: req.body.email,
-        id_post: req.body.id_post,
-        utm_campaign: req.body.id_post || "",
-        utm_channel: req.body.utm_channel || "",
-        utm_medium: req.body.utm_medium || "",
-        utm_source: req.body.utm_source || ""
+        email: req.body.data.email,
+        id_post: req.body.data.id,
+        utm_campaign: req.body.data.id_post || "",
+        utm_channel: req.body.data.utm_channel || "",
+        utm_medium: req.body.data.utm_medium || "",
+        utm_source: req.body.data.utm_source || ""
       }
       const allAccess = await this.accessService.registerAccess(access, player)
       res.status(200).json(allAccess);

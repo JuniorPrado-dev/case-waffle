@@ -1,8 +1,8 @@
 import { PlayerData } from "./playerModel";
 
 export interface Access {
-  id_post: string;
   email: string;
+  id_post?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
