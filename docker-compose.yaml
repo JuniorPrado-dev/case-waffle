@@ -1,4 +1,17 @@
 services:
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./backend/api-gateway
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3010:3010"
+    volumes:
+      - ./backend/api-gateway:/api 
+    env_file:
+      - ./backend/api-gateway/.env
+  
   user-service:
     container_name: user-service
     build:
@@ -6,7 +19,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "3015:3005"
+      - "3011:3011"
     volumes:
       - ./backend/user-service:/api 
     env_file:
@@ -33,7 +46,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "3016:3006"
+      - "3012:3012"
     volumes:
       - ./backend/game-service:/api 
     env_file:
