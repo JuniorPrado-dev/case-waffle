@@ -31,8 +31,7 @@ export class UserRepository {
             // Retorna o usuário criado
             return result.rows[0];
         } catch (err) {
-            console.error('ErroUserRepository on register user:', err);
-            throw new AppError("ErrorRepository on register user")
+            throw new AppError("ErrorRepository on register user",400)
         }
     }
 

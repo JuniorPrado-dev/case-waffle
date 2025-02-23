@@ -15,12 +15,13 @@ export const errorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error("Log ERROR - > ",err); // Log do erro para debug
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       message: err.message,
     });
   }
+
+  console.error(err); // Log do erro para debug
   return res.status(500).json({
     message: 'Internal server error',
   });

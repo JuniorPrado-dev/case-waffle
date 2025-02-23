@@ -13,9 +13,6 @@ const useService = new UserService(userRepository);
 const userController = new UserController(useService);
 
 const router = express.Router();
-router.get('/test',(req:Request,resp:Response)=>{
-    resp.send({message:'User Service is running!'});
- })
 router.post('/register', validateRegisterInput, userController.register);
 router.post('/login', validateLoginInput, userController.login);
 router.get('/', authenticate,authorize("admin"), userController.getAllUsers);
