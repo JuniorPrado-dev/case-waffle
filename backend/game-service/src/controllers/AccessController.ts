@@ -37,6 +37,7 @@ export class AccessController {
       const access: Access = {
         email: req.body.data.email,
         id_post: req.body.data.id,
+      status: req.body.data.status || "",
         utm_campaign: req.body.data.id_post || "",
         utm_channel: req.body.data.utm_channel || "",
         utm_medium: req.body.data.utm_medium || "",
