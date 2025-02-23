@@ -62,4 +62,18 @@ export class PlayerService {
       throw new AppError("ErrorplayerService ongetplayerById", 400)
     }
   };
+  
+  getAllPlayers = async (): Promise<PlayerData[] | undefined> => {
+    try {
+      const players = await this.playerRepository.getAllPlayers();
+      if (!players || players.length === 0) {
+        throw new AppError('players not found', 404);
+      }
+      return players;
+
+    } catch (error) {
+      console.log("Error playerService on getAllPlayerById", error)
+      throw new AppError("Error playerService on getAllPlayerById", 400)
+    }
+  };
 }
