@@ -11,28 +11,44 @@ export class UserService {
     this.userRepository = userRepository;
   }
 
-  getUserById = async (id:string): Promise<User[] | undefined> => {
+  getUserById = async (id: string): Promise<UserPayload | undefined> => {
     try {
-      const user = await this.userRepository.getUserById(id);
-      if (!user) {
+      const response: UserData | undefined = await this.userRepository.getUserById(id);
+      if (!response) {
         throw new AppError('User not found', 404);
+      } else {
+        const user: UserPayload = {
+          id: response.id,
+          name: response.name,
+          email: response.email,
+          role: response.role
+        }
+        return user;
       }
-      return user;
     } catch (error) {
-      console.log("ErrorUserService ongetUserById",error)
+      console.log("ErrorUserService ongetUserById", error)
       throw new AppError("ErrorUserService ongetUserById", 400)
     }
   };
 
-  getAllUsers = async (): Promise<User[] | undefined> => {
+  getAllUsers = async (): Promise<UserPayload[] | undefined> => {
     try {
-      const allUsers = await this.userRepository.getAllUsers();
-      if (!allUsers || allUsers.length === 0) {
+      const allUsersData: UserData[] | undefined = await this.userRepository.getAllUsers();
+      if (!allUsersData || allUsersData.length === 0) {
         throw new AppError('Users not found', 404);
+      } else {
+        const allUsers: UserPayload[] = allUsersData.map((user) => {
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+          }
+        })
+        return allUsers;
       }
-      return allUsers;
     } catch (error) {
-      console.log("ErrorUserService on getAllUsers",error)
+      console.log("ErrorUserService on getAllUsers", error)
       throw new AppError("ErrorUserService on getAllUsers", 400)
     }
   };

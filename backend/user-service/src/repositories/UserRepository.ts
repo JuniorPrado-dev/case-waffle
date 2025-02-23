@@ -38,7 +38,7 @@ export class UserRepository {
     }
 
     // Get all users
-    async getAllUsers(): Promise<User[] | undefined> {
+    async getAllUsers(): Promise<UserData[] | undefined> {
         try {
             // Obtém uma conexão do pool
             const connection = await this.database.getInstance().connect();
@@ -57,7 +57,7 @@ export class UserRepository {
         }
     }
     // Get User by Id
-    async getUserById(id:string): Promise<User[] | undefined> {
+    async getUserById(id:string): Promise<UserData | undefined> {
         try {
             // Obtém uma conexão do pool
             const connection = await this.database.getInstance().connect();

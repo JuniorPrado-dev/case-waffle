@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { AppError } from '../middlewares/errorMiddleware';
 import { UserService } from '../services/UserService';
+import { UserPayload } from '../models/userModel';
 
 export class UserController {
   private userService: UserService;
@@ -15,8 +16,8 @@ export class UserController {
       if (!id){
         throw new AppError('User id is required !',404);
       }
-      const allUsers = await this.userService.getUserById(id);
-      res.status(200).json(allUsers);
+      const user:UserPayload|undefined = await this.userService.getUserById(id);
+      res.status(200).json(user);
     } catch (error) {
       console.log("UseControllerERROR: Failed to get all Users. ",error);
       if (error instanceof AppError) {
@@ -28,7 +29,7 @@ export class UserController {
 
   getAllUsers = async (req: Request, res: Response) => {
     try {
-      const allUsers = await this.userService.getAllUsers();
+      const allUsers:UserPayload[]|undefined = await this.userService.getAllUsers();
       res.status(200).json(allUsers);
     } catch (error) {
       console.log("UseControllerERROR: Failed to get all Users. ",error);
