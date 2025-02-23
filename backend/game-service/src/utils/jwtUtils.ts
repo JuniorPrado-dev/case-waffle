@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { UserPayload } from '../models/playerModel';
+import { UserPayload } from '../models/userModel';
 
 // Chave secreta para assinar e verificar tokens
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';

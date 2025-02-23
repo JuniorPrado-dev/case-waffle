@@ -1,11 +1,11 @@
 -- Active: 1740117052385@@127.0.0.1@5435@user_db
-CREATE TABLE "players" (
+CREATE TABLE IF NOT EXISTS "players" (
     id VARCHAR(255) PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     scores INT NOT NULL,
-    last_check_date TIMESTAMP NOT NULL,
+    last_check_date TIMESTAMP NOT NULL
 );
-CREATE TABLE "access" (
+CREATE TABLE IF NOT EXISTS "access" (
     id VARCHAR(255) PRIMARY KEY,
     id_post VARCHAR(255), 
     utm_source VARCHAR(255), 

@@ -13,11 +13,8 @@ const playerService = new PlayerService(playerRepository);
 const playerController = new PlayerController(playerService);
 
 const router = express.Router();
-router.get('/test', (req: Request, resp: Response) => {
-    resp.send({ message: 'Player Service is running!' });
-})
-router.post('/', authenticate, authorize("admin"), playerController.getPayerByEmail);
-router.post('/:email', authenticate, playerController.getPayerByEmail);
-router.post('/update', authenticate, playerController.updatePayer);
+router.get('/', authenticate, authorize("admin"), playerController.getAllPlayers);
+router.get('/:email', authenticate, playerController.getPayerByEmail);
+router.put('/update', authenticate, playerController.updatePayer);
 
 export default router;

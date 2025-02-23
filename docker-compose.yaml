@@ -52,7 +52,7 @@ services:
       - db_game:/var/lib/postgresql/data
       - ./backend/game-service/db/init.sql:/docker-entrypoint-initdb.d/init.sql  # Monta o script SQL inicial
     ports:
-      - "5435:5432"
+      - "5436:5432"
 
 volumes:
   db_user:

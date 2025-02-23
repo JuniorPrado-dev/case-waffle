@@ -23,7 +23,6 @@ router.get('/test', (req: Request, resp: Response) => {
     resp.send({ message: 'Player Service is running!' });
 })
 router.get('/', authenticate, authorize("admin"), accessController.getAllAccess);
-router.post('/', authenticate,authorize("admin"),validateRegisterInput, accessController.newRegister);
-router.post('/update', authenticate, playerController.updatePayer);
+router.post('/',validateRegisterInput, accessController.newRegister);
 
 export default router;
