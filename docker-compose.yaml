@@ -26,6 +26,34 @@ services:
       - ./backend/user-service/db/init.sql:/docker-entrypoint-initdb.d/init.sql  # Monta o script SQL inicial
     ports:
       - "5435:5432"
+  game-service:
+    container_name: game-service
+    build:
+      context: ./backend/game-service
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3016:3005"
+    volumes:
+      - ./backend/game-service:/api 
+    env_file:
+      - ./backend/game-service/.env
+    depends_on:
+      - db-game  # Garante que o banco de dados inicie antes do user-service
+
+  db-game:
+    container_name: game_db
+    build:
+      context: ./backend/game-service/db
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/game-service/db/.env
+    volumes:
+      - db_game:/var/lib/postgresql/data
+      - ./backend/game-service/db/init.sql:/docker-entrypoint-initdb.d/init.sql  # Monta o script SQL inicial
+    ports:
+      - "5435:5432"
 
 volumes:
   db_user:
+  db_game:

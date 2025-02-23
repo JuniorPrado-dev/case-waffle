@@ -1,0 +1,191 @@
+import { Database } from '../config/db'; // Importando a classe Database
+import { IdGenerator } from '../utils/idGenerator';
+import { AppError } from '../middlewares/errorMiddleware';
+import { Player, PlayerData } from '../models/playerModel';
+
+export class PlayerRepository {
+    private database: Database;
+
+    // Construtor que recebe a instância de Database
+    constructor(database: Database) {
+        this.database = database;
+    }
+    // Método para criar um usuário
+    async createPlayer(player: PlayerData): Promise<PlayerData | undefined> {
+        try {
+            const {
+                id,
+                name,
+                email,
+                last_check_date = Date.now(),
+                scores,
+                utm_campaign,
+                utm_channel,
+                utm_medium,
+                utm_source } = player;
+
+            const idPlayer = IdGenerator.generateId();
+            const idAccess = IdGenerator.generateId();
+
+            // Obtém uma conexão do pool
+            const connection = await this.database.getInstance().connect();
+
+            // Executa a query para inserir o jogado
+            const result = await connection.query(
+                `INSERT INTO players (id, name , email,
+                 last_check_date, scores) 
+                 VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+                [idPlayer, name, email, last_check_date, scores]
+            );
+            // Libera a conexão de volta para o pool
+            connection.release();
+
+            // Retorna o player criado
+            return result.rows[0];
+        } catch (err) {
+            console.error('ErrorUserRepository on register user:', err);
+            throw new AppError("ErrorRepository on register player")
+        }
+    }
+    // Método para criar um usuário
+    async UpdatecreatePlayer(player: PlayerData): Promise<PlayerData | undefined> {
+        try {
+            const {
+                id,
+                name,
+                email,
+                last_check_date = Date.now(),
+                scores,
+                utm_campaign,
+                utm_channel,
+                utm_medium,
+                utm_source } = player;
+
+            const idPlayer = IdGenerator.generateId();
+            const idAccess = IdGenerator.generateId();
+
+            // Obtém uma conexão do pool
+            const connection = await this.database.getInstance().connect();
+
+            // Executa a query para inserir o jogado
+            const result = await connection.query(
+                `INSERT INTO players (id, name , email,
+                 last_check_date, scores) 
+                 VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+                [idPlayer, name, email, last_check_date, scores]
+            );
+            // Libera a conexão de volta para o pool
+            connection.release();
+
+            // Retorna o player criado
+            return result.rows[0];
+        } catch (err) {
+            console.error('ErrorUserRepository on register user:', err);
+            throw new AppError("ErrorRepository on register player")
+        }
+    }
+
+    // Get all players
+    async getAllPlayers(): Promise<Player[] | undefined> {
+        try {
+            // Obtém uma conexão do pool
+            const connection = await this.database.getInstance().connect();
+
+            // Executa a query para buscar todos os jogadores
+            const result = await connection.query(`SELECT * FROM players`)
+
+            // Libera a conexão de volta para o pool
+            connection.release();
+
+            // Retorna os usuários encontrados
+            return result.rows;
+        } catch (err) {
+            console.error('ErroUserRepository on get all players:', err);
+            throw new AppError("ErrorRepository on get all players")
+        }
+    }
+    // Get User by Id
+    async getUserById(id: string): Promise<Player | undefined> {
+        try {
+            // Obtém uma conexão do pool
+            const connection = await this.database.getInstance().connect();
+
+            // Executa a query para buscar todos os usuários
+            const result = await connection.query(`SELECT * FROM players WHERE id = $1`, [id])
+
+            // Libera a conexão de volta para o pool
+            connection.release();
+
+            // Retorna os usuários encontrados
+            return result.rows[0];
+        } catch (err) {
+            console.error('ErroUserRepository on get user:', err);
+            throw new AppError("ErrorRepository on get user")
+        }
+    }
+
+    // Método para encontrar um usuário pelo email
+    async findPlayerByEmail(email: string): Promise<PlayerData | null> {
+        try {
+            // Obtém uma conexão do pool
+            const connection = await this.database.getInstance().connect();
+
+            // Executa a query para buscar o usuário pelo email
+            const result = await connection.query(`SELECT * FROM players WHERE email = $1`, [email])
+
+            // Libera a conexão de volta para o pool
+            connection.release();
+
+            // Retorna o usuário encontrado ou null
+            return result.rows[0] || null;
+        } catch (err) {
+            console.error('Error on search player by email:', err);
+            throw new AppError("ErrorRepository on search user");
+        }
+    }
+    // Método para encontrar um usuário pelo email
+    async updatePlayerByEmail(updatePlayer: Player): Promise<Player | null> {
+        try {
+            // Obtém uma conexão do pool
+            const connection = await this.database.getInstance().connect();
+
+            const {
+                name,
+                email,
+                last_check_date,
+                scores,
+                utm_campaign,
+                utm_channel,
+                utm_medium,
+                utm_source } = updatePlayer;
+
+            // Executa a query 
+            const result = await connection.query(
+                `UPDATE players
+                 SET (name = $1 , email= $2,
+                 last_check_date = $3, scores = $4) 
+                 RETURNING *`,
+                [name, email, last_check_date, scores] 
+            )   
+            // Executa a query 
+            const result2 = await connection.query(
+                `UPDATE players
+                 SET (
+                 utm_campaign = $5, 
+                 utm_channel = $6, 
+                 utm_medium = $7, 
+                 utm_source = $8) 
+                 VALUES ($1, $2, $3, $4) RETURNING *`,
+                [utm_campaign, utm_channel, utm_medium, utm_source] 
+            )   
+            // Libera a conexão de volta para o pool
+            connection.release();
+
+            // Retorna o usuário encontrado ou null
+            return result.rows[0] || null;
+        } catch (err) {
+            console.error('Error update players by email:', err);
+            throw new AppError("ErrorRepository on update player: ",500);
+        }
+    }
+}
