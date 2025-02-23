@@ -18,7 +18,10 @@ export class AccessRepository {
                 utm_channel,
                 utm_medium,
                 utm_source,
-                email
+                email,
+                created_at,
+                id_post,
+                status
             } = access;
 
             const connection = await this.database.getInstance().connect();
@@ -28,9 +31,13 @@ export class AccessRepository {
                                     utm_channel,
                                     utm_medium,
                                     utm_source,
-                                    email ) 
-                 VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-                [id, utm_campaign, utm_channel, utm_medium, utm_source,email]
+                                    email,
+                                    created_at,
+                                    id_post,
+                                    status,
+                                    ) 
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+                [id, utm_campaign, utm_channel, utm_medium, utm_source,email,created_at,id_post,status]
             );
             connection.release();
             return result.rows[0];
