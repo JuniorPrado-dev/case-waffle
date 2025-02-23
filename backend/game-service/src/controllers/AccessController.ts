@@ -24,6 +24,8 @@ export class AccessController {
   newRegister = async (req: Request, res: Response, next: NextFunction) => {
 
     console.log("req.body.data --> ", req.body.data)
+    console.log("req.body.params --> ", req.params.email)
+    console.log("req.body.params --> ", req.params.id)
 
     try {
       const dateString = req.body.data.created_at
