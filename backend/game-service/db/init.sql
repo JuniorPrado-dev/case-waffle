@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "players" (
     id VARCHAR(255) PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     scores INT NOT NULL,
-    last_check_date TIMESTAMP NOT NULL
+    last_check_date BIGINT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS "access" (
     id VARCHAR(255) PRIMARY KEY,

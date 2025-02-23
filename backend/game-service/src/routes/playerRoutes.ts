@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { validateRegisterInput } from '../middlewares/validationMiddleware';
+import { validateRegisterInput, validateUpdate } from '../middlewares/validationMiddleware';
 import { authenticate } from '../middlewares/authMiddleware';
 import { authorize } from '../middlewares/authorizationMiddleware';
 import { Database } from '../config/db';
@@ -14,7 +14,7 @@ const playerController = new PlayerController(playerService);
 
 const router = express.Router();
 router.get('/', authenticate, authorize("admin"), playerController.getAllPlayers);
-router.get('/:email', authenticate, playerController.getPayerByEmail);
-router.put('/update', authenticate, playerController.updatePayer);
+router.get('/:email', authenticate, playerController.getPlayerByEmail);
+router.put('/update', authenticate,validateUpdate, playerController.updatePlayer);
 
 export default router;

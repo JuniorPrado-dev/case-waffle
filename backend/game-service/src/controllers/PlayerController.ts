@@ -18,19 +18,19 @@ export class PlayerController {
     }
   };
 
-  getPayerByEmail = async (req: Request, res: Response, next: NextFunction) => {
+  getPlayerByEmail = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const email = req.params.email
-      const player = this.playerService.getPlayerByEmail(email)
+      const player = await this.playerService.getPlayerByEmail(email)
       res.status(200).json(player);
     } catch (error) {
       next(error);
     }
   };
 
-  updatePayer = async (req: Request, res: Response, next: NextFunction) => {
+  updatePlayer = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const player = this.playerService.updatePlayer({ ...req.body })
+      const player = await this.playerService.updatePlayer({ ...req.body })
       res.status(200).json(player);
     } catch (error) {
       next(error);

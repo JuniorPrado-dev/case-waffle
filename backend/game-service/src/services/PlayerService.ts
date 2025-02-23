@@ -35,9 +35,13 @@ export class PlayerService {
   updatePlayer = async (player: PlayerUpdate): Promise<PlayerData | undefined> => {
     try {
       const existingPlayer = await this.playerRepository.findPlayerByEmail(player.email);
+      
       if (!existingPlayer) {
         throw new AppError("Player don't exists", 401)
       } else {
+        if (player.last_check_date > Date.now()) {
+          player.last_check_date = Date.now();
+        }
         return await this.playerRepository.updatePlayerByEmail(player);
       }
     } catch (error) {
@@ -48,9 +52,11 @@ export class PlayerService {
   getPlayerByEmail = async (email: string): Promise<PlayerData | undefined> => {
     try {
       const player = await this.playerRepository.findPlayerByEmail(email);
+      
       if (!player) {
         throw new AppError('player not found', 404);
       }
+      
       return player;
 
     } catch (error) {

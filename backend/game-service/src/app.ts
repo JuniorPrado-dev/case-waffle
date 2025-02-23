@@ -9,11 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/player', playerRoutes);
-app.use('/access', accessRoutes);
-app.get('/', (req: Request, resp: Response) => {
+app.get('/test', (req: Request, resp: Response) => {
     resp.send({ message: 'Game Service is running!' });
 })
+app.use('/player', playerRoutes);
+app.use('/access', accessRoutes);
 
 app.use(errorMiddleware);
 

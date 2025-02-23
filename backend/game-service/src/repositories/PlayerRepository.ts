@@ -24,10 +24,12 @@ export class PlayerRepository {
 
             // Executa a query para inserir o jogado
             const result = await connection.query(
-                `INSERT INTO players (id, name , email,
-                 last_check_date, scores) 
-                 VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-                [id, name, email, last_check_date, scores]
+                `INSERT INTO players (
+                id, 
+                email,
+                last_check_date, scores) 
+                VALUES ($1, $2, $3, $4) RETURNING *`,
+                [id, email, last_check_date, scores]
             );
             // Libera a conexão de volta para o pool
             connection.release();
@@ -86,7 +88,7 @@ export class PlayerRepository {
 
             // Executa a query para buscar o usuário pelo email
             const result = await connection.query(`SELECT * FROM players WHERE email = $1`, [email])
-
+            
             // Libera a conexão de volta para o pool
             connection.release();
 
