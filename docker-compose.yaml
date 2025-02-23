@@ -33,7 +33,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "3016:3005"
+      - "3016:3006"
     volumes:
       - ./backend/game-service:/api 
     env_file:

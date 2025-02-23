@@ -7,7 +7,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+app.get('/',(req:Request,resp:Response)=>{
+    resp.send({message:'User Service is running!'});
+ })
 app.use('/users', userRoutes);
 
 app.use(errorMiddleware);

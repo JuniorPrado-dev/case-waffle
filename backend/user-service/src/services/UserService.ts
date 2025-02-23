@@ -54,18 +54,18 @@ export class UserService {
     }
   };
 
-  registerUser = async (user: User): Promise<User | undefined> => {
+  registerUser = async (user: User): Promise<void> => {
     try {
       const existingUser = await this.userRepository.findUserByEmail(user.email);
       if (existingUser) {
         throw new AppError('User already exists', 400);
       }
-
       const id = IdGenerator.generateId();  
       user.password = await hashPassword(user.password);
-      return await this.userRepository.createUser({id,...user});
+      await this.userRepository.createUser({id,...user});
+    
     } catch (error) {
-      throw new AppError("ErrorUserService on creating user", 400)
+      throw error
     }
   };
 
