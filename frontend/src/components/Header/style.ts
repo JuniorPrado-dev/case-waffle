@@ -1,27 +1,6 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { device } from "../../utils/sizeDevices";
 import COLORS from "@/constants/colors";
-const fadeIn = keyframes`
-    from {
-        opacity: 0;
-        transform: translate(-50%, -60%);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
-`;
-
-const fadeOut = keyframes`
-    from {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
-    to {
-        opacity: 0;
-        transform: translate(-50%, -60%);
-      }
-      `;
 export const Container = styled.header`
   width: 100%;
   height:4% ;

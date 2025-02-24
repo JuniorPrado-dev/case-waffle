@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import * as S from "./style";
 import imageDetective from "@/assets/images-detective";
 import ComicBubble from "@/components/ComicBubble";
-import SLider from "@/components/Slider";
 
 export default function HomePage() {
   const narration = [

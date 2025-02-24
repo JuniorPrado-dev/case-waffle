@@ -20,7 +20,7 @@ const UserForm: React.FC = () => {
 
 
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
+  // const [isVisible, setIsVisible] = useState(false);
   const [isVisibleOnSubmit, setIsVisibleOnSubmit] = useState(false);
   const [dataModal, setDataModal] = useState({
     status: "",
@@ -75,7 +75,6 @@ const UserForm: React.FC = () => {
           values,
           errors,
           touched,
-          setFieldValue,
         }) => (
           <S.FormStyled>
             <FormFieldInput

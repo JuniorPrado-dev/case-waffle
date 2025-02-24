@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch } from "redux";
-import { getCookie, removeCookie, setCookie } from "../cookies";
+import { getCookie} from "../cookies";
 import requestGet from "../functionsRequest/requestGet";
 import { setAccessList } from "@/redux/accessListSlice ";
 
