@@ -113,6 +113,7 @@ Além do desenvolvimento, os candidatos devem apresentar um breve relatório res
 
 Você vai ter até 24/02/25 06:06 para nos mandar as entregas, quando finalizar mande aqui neste [formulário](https://tally.so/r/3jka89).
 
+#
 ## 🚚 Entrega
 
 Cliquei [aqui](./docs/README.md) para ler o relatório técnico.

@@ -249,3 +249,11 @@ Prontinho, basta aguardar um pouco e o projeto estará pronto para uso.
 ## Como Acessar
 
 Para acessar o `front` acesse [waffle.alofan.com.br](https://waffle.alofan.com.br)
+
+
+## Sugestões e Considerações Finais
+
+A propósta apresentada (enbora não finalizada) é a criação de uma plataforma gameficada onde o jogador se torna um "detetive" e ajuda ao Shelork Holmes a desvendar os mistérios (charadas). O conteudo das charadas seriam extraídos das edições diárias e seguiria tammbém a regra da pontuação contínua.
+
+Por fim agradeço a oportunidade. Exercitei bastante epude relembrar vários conceitos! Espero que considerem a extrutura do projeto. Pois embpra não finalizado, mantém uma estrutura sólida e escalável.
+Obrigado!
