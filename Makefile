@@ -46,3 +46,9 @@ kabum:
 	@if [ -n "$$(docker ps -aq)" ]; then docker rm $$(docker ps -aq); fi
 	@if [ -n "$$(docker images -q)" ]; then docker rmi $$(docker images -q); fi
 	@if [ -n "$$(docker volume ls -q)" ]; then docker volume rm $$(docker volume ls -q); fi
+
+# Comando para dar Deploy no Front
+deploy-front:
+	sudo mkdir -p /var/www/waffle.alofan.com.br
+	sudo cp -r frontend/dist/* /var/www/waffle.alofan.com.br
+	sudo systemctl restart nginx
