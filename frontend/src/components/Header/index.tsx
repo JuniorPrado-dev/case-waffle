@@ -15,21 +15,13 @@ export default function Header({ home = false }: Props) {
     <S.Container>
       <S.Content>
         {!home ? (
-          <S.ContentBox>
-            <FaArrowCircleLeft
-              size={100}
-              color={COLORS.yellow}
-              onClick={() => goToHome(navigate)}
-            />
+          <S.ContentBox onClick={() => goToHome(navigate)}>
+            <FaArrowCircleLeft size={100} color={COLORS.yellow} />
           </S.ContentBox>
         ) : (
-          <S.ContentBox>
+          <S.ContentBox onClick={() => goToLogin(navigate)}>
             <S.Text>login</S.Text>
-            <BiSolidLogIn
-              size={100}
-              color={COLORS.yellow}
-              onClick={() => goToLogin(navigate)}
-            />
+            <BiSolidLogIn size={100} color={COLORS.yellow} />
           </S.ContentBox>
         )}
         <S.Text>SherloWaffleHome</S.Text>
