@@ -7,7 +7,7 @@ export const goToLogin=(navigate:NavigateFunction)=>{
     navigate(`/login`)
 }
 export const goToSingUp=(navigate:NavigateFunction)=>{
-    navigate(`/sing-up`)
+    navigate(`/register`)
 }
 // export const goToProfessionRegister=(navigate:NavigateFunction)=>{
 //     navigate(`/prof`)

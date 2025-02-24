@@ -2,36 +2,38 @@ import styled from 'styled-components';
 
 // components/UserForm/style.ts
 import { Form } from "formik";
-import COLORS from '@/constants/colors';
-import { device } from '@/utils/sizeDevices';
+import { device } from "@/utils/sizeDevices";
+import COLORS from "@/constants/colors";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px;
-  background-color: #f9f9f9;
+  background-color: ${COLORS.yellow};
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 50%;
-  margin: 0px auto; 
-  padding: 50px; 
+  min-width: 50vw;
+  max-width: 80%;
   @media ${device.mobileM} {
-    width: 95vw;
-    margin: 0px auto; 
-    padding: 10px; 
-    max-width: 80vw;
-      }
+    width:90vw;
+    padding: 10px;
+    max-width: 100vw;
+    }
+  
 `;
-
 
 export const Title = styled.h1`
   font-size: 24px;
-  color: #333;
+  color: ${COLORS.brown};
   margin-bottom: 20px;
-  font-weight: 600;
+  font-weight: 800;
   text-align: center;
   font-family: "Montserrat", sans-serif;
+  @media ${device.mobileM} {
+    font-size: 20px;
+  }
+
 `;
 
 export const FormStyled = styled(Form)`
@@ -39,37 +41,6 @@ export const FormStyled = styled(Form)`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`;
-
-export const Button = styled.button`
-  width: 100%;
-  padding: 12px 20px;
-  margin-top: 5px;
-  background-color: #4a90e2;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: bold;
-  transition: background-color 0.3s, transform 0.2s;
-  font-family: 'Montserrat', sans-serif;
-  appearance: none;
-
-  &:hover {
-    background-color: ${COLORS.lightBlue};
-    transform: scale(1.03);
-  }
-  &:active {
-    transform: scale(0.98);
-  }
-
-  &:disabled {
-    background-color: #b0c4de;
-    color: #e0e0e0;
-    cursor: not-allowed;
-    transform: none;
-  }
 `;
 
 export const ErrorText = styled.div`

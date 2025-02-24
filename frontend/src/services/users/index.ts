@@ -38,7 +38,7 @@ export const userRegistration = (dataRegistration: TypeUserRequest) => {
 export const userLogin = (dataLogin: TypeUserLogin) => {
     const makeLogin = async () => {
         try {
-            const response = await requestPost("/user/login", dataLogin)
+            const response = await requestPost("/users/login", dataLogin)
             if (response.status && response.status === "success") {
                 setCookie({ key: "token", value: response.data.token })
                 return {

@@ -10,8 +10,7 @@ import { useNavigate } from "react-router-dom";
 //import GoogleLoginButton from "./GoogleLoginButton";
 
 function LoginForm() {
-  const initialValues: TypeUserLoginRequest = {
-    google_id: "",
+  const initialValues: TypeUserLogin = {
     email: "",
     password: "",
   };
@@ -22,7 +21,7 @@ function LoginForm() {
     detail: "",
   });
 
-  const handleSubmit = async (values: TypeUserLoginRequest) => {
+  const handleSubmit = async (values: TypeUserLogin) => {
     const response = await userLogin(values);
     if (response && response.status) {
       setIsVisibleOnSubmit(true);
@@ -105,11 +104,6 @@ function LoginForm() {
               onClick={() => goToResetPassword(navigate)}
               text="Esqueci a senha"
             />
-            {/* <GoogleLoginButton
-              setIsVisibleOnSubmit={setIsVisibleOnSubmit}
-              setDataModal={setDataModal}
-            /> */}
-
           </S.FormStyled>
         )}
       </Formik>

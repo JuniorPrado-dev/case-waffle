@@ -1,40 +1,31 @@
-// import Header from "../../components/Header";
-// import BannerRotativo from "../../components/BannerRotativo";
-// import * as S from "./style";
-// import SearchMenu from "@/components/SearchMenu";
-// import { useEffect } from "react";
-// import { updateCategoryList } from "@/services/categories";
-// import { useAppDispatch } from "@/redux/hooks";
-// import BannerBottom from "@/components/BannerBottom";
-// import Main from "@/components/Main";
-// import Footer from "@/components/Footer";
-// import { updateUser } from "@/services/users";
-// import imagesTop from "@/assets/images/topBanner";
-// import imagesBotton from "@/assets/images/bottomBanner";
-// export default function HomePage() {
-  //   const dispatch = useAppDispatch();
-  
-  //   useEffect(() => {
-    //     updateCategoryList(dispatch);
-    //     updateUser(dispatch);
-    //   }, []);
-    //   const imagesUP=imagesTop
-    //   return (
-      //     <S.Container>
-      //       <Header isHomer />
-      //       <S.MainContent>
-      //         <BannerRotativo images={imagesUP} />
-      //         <SearchMenu />
-      //         <Main />
-      //         <BannerBottom
-      //           images={imagesBotton}
-      //         />
-      //       </S.MainContent>
-      //       <Footer isHomer={true} /> {/* Footer fixo no final */}
-      //     </S.Container>
-      //   );
-      // }
-      
-      export default function HomePage() {
-        return(<h1>HOME</h1>)
-      }
+import Header from "@/components/Header";
+import * as S from "./style";
+import imageDetective from "@/assets/images-detective";
+import ComicBubble from "@/components/ComicBubble";
+import SLider from "@/components/Slider";
+
+export default function HomePage() {
+  const narration = [
+    {
+      imageUrl: imageDetective.escondido,
+      text: "Oi!... Aqui Atráz dos harbustos!... Estou no meio de uma investigação! Preciso da sua ajuda! ",
+    },
+    {
+      imageUrl: imageDetective.escondido,
+      text: "Oi!... Aqui Atráz dos harbustos!... Estou no meio de uma investigação! Preciso da sua ajuda! ",
+    },
+    {
+      imageUrl: imageDetective.escondido,
+      text: "Oi!... Aqui Atráz dos harbustos!... Estou no meio de uma investigação! Preciso da sua ajuda! ",
+    },
+  ];
+
+  return (
+    <S.Container>
+      <Header home />
+      <S.MainContent>
+        <ComicBubble imageUrl={narration[0].imageUrl} text={narration[0].text} />
+      </S.MainContent>
+    </S.Container>
+  );
+}

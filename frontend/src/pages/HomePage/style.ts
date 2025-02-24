@@ -1,17 +1,18 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color:#070d19;
-
-  `;
-
+    background-color:#070d19;
+    min-height: 100vh;
+    `;
+export const Image = styled.img`
+    height: 30vw;
+    margin-right: 1vw;
+    `;
 // Conteúdo principal expande para ocupar o espaço restante
 export const MainContent = styled.main`
-  flex: 1;
-  background-color:#070d19;
+  display: flex;
+  width: 100%;
+  justify-content:center;
+  align-items:center;
+  padding: 3% 0%;
   `;
-
-

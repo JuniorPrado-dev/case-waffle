@@ -1,4 +1,18 @@
 services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3015:80" # porta para local
+    volumes:
+      - ./frontend/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./frontend/nginx/sites-available:/etc/nginx/sites-available
+      - ./frontend/nginx/conf.d:/etc/nginx/conf.d
+      - ./frontend/nginx/letsencrypt:/etc/letsencrypt
+      - ./frontend/dist:/usr/share/nginx/html
+    restart: always
   api-gateway:
     container_name: api-gateway
     build:
